@@ -58,6 +58,21 @@ app.put("/all/:id" , async(req,res)=>{
     }
 })
 
+app.delete("/all/:id",async(req,res)=>{
+    try{
+     const {id} = req.params;
+     const product = await Product.findByIdAndDelete(id)
+     if(!product){
+        return res.status(404).json({message:`cannot find anything in db with ${id}`})
+    }
+     res.status(200).json(product)
+    }
+    catch(error){
+      res.status(500).json({message: error.message})
+    }
+})
+
+
 mongoose.connect("mongodb+srv://godhand:Ilyas.123@ilyasapi.qahrnea.mongodb.net/NodeAPI?retryWrites=true&w=majority")
 .then(()=>{
     console.log("CONNECT TO MONGODB")
